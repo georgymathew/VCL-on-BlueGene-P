@@ -125,7 +125,7 @@ cd ~/
 
 #Adding the path in the PATH variable
 echo  >> .bashrc
-echo export PATH=/home/$USER/MySQL/mysql/bin:$PATH >> .bashrc
+echo export PATH=/home/$USER/MySQL/mysql/bin:\$PATH >> .bashrc
 
 #LOading the Bash variables PATH
 . .bashrc
