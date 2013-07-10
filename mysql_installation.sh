@@ -12,7 +12,7 @@ echo "Untaring the Mysql Tar Ball";
 
 tar -xzvf mysql.tar.gz > /dev/null
 if [ "$?" -eq 0 ]; then
-  echo "Contents of the Tar ball are extracted into the directory mysql which you can find in your Home Directory";
+	echo "Contents of the Tar ball are extracted into the directory mysql which you can find in your Home Directory";
 else
 	echo "Extracting Contents of Tar Ball Failed";
 fi
@@ -192,7 +192,11 @@ mysql vcl < final_clean.sql
 
 cd ~/
 echo "Making the port change in the api scripts";
-cp /pvfs-surveyor/georgy/khdev.copy .
+
+cp /pvfs-surveyor/georgy/api_scripts/khdev.copy .
 sed -i 's/selectedport/'$portno'/g' khdev.copy
+
+cp /pvfs-surveyor/georgy/api_scripts/khdev_template .
+sed -i 's/selectedport/'$portno'/g' khdev_template
 
 echo "----- MySQL Database Installed Successfully -----";
