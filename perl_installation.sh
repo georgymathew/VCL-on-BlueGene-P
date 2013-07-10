@@ -97,6 +97,17 @@ var=${arr[1]}
 echo $var
 export khctlserver="$var"
 
+
+let count=0
+declare -a ARRAY
+
+while read LINE; do
+ARRAY[$count]=$LINE
+((count++))
+done < log
+
+qsubid=${ARRAY[2]}
+
 PASS='kh'
 
 echo "Starting the Base Node (Khdev Node)"
@@ -114,8 +125,6 @@ expect "password:"
 send "$PASS\r"
 expect "password:"
 EOD
-
-
 
 echo "Customizing Provision and OS module files for the new username $USER";
 
@@ -180,3 +189,53 @@ mv vcl_config_files vcl
 
 EOF
 
+
+echo "Editing the necessary API script"
+cd ~/
+
+
+echo "All the perl Modules are successfully installed"
+
+echo "The node will be shutdown in 60 seconds"
+
+sleep 60
+ssh -o StrictHostKeyChecking=no root@$external 'bash -s' <<EOT
+halt
+EOT
+
+read -r id<nbdid
+echo nbd-server id is : $id
+kill $id
+qdel $qsubid
+
+echo "BlueGene Job has been successfully deleted"
+
+
+echo "The Lenny Image is now configured as the Management Node Image for VCL"
+echo "Please enter a name to be assigned for the same";
+read newname
+
+cd $untarpath
+mv lenny.img $newname.img
+
+echo "The image is saved in the directory $untarpath"
+
+val=/
+img=lenny
+newvar=$untarpath$val$newname
+newva=$untarpath$val$img
+echo $newvar
+
+sed "124 a\spawn ./khdev.copy -p \$net -K \"\$(cat ~/.ssh/id_rsa.pub)\" $newvar.img" /pvfs-surveyor/georgy/api_scripts/trigger.sh > trigger.sh
+chmod +x trigger.sh
+
+
+sed "48 a\spawn ./khdev_template -n \$2 -K \"\$(cat ~/.ssh/id_rsa.pub)\" $newva.img" /pvfs-surveyor/georgy/api_scripts/provision.sh > provision.sh
+chmod +x provision.sh
+
+
+echo "A new copy of Lenny image will be extracted at the same location to load on other nodes in the cluster"
+cd ~/
+cd $untarpath
+pwd
+tar -zxvf /pvfs-surveyor/georgy/lenny/lenny.tar.gz
