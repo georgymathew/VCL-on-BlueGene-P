@@ -27,7 +27,7 @@ echo "Untarring Lenny Image to the Specified Location. This will take a few Minu
 cd $untarpath
 pwd
 
-#tar -zxvf /pvfs-surveyor/georgy/lenny/lenny.tar.gz
+tar -zxvf /pvfs-surveyor/georgy/lenny/lenny.tar.gz
 
 echo "Untarring Done"
 
