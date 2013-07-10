@@ -190,5 +190,9 @@ cd ~/
 cd mysql
 mysql vcl < final_clean.sql
 
+cd ~/
+echo "Making the port change in the api scripts";
+cp /pvfs-surveyor/georgy/khdev.copy .
+sed -i 's/selectedport/'$portno'/g' khdev.copy
 
 echo "----- MySQL Database Installed Successfully -----";
