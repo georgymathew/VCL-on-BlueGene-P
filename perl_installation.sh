@@ -4,7 +4,7 @@ echo "This is an installation script for Perl Modules on Standard Lenny Image"
 
 echo "All the Perl Modules required for VCL Management Node will be installed"
 
-echo "Please enter the Path where you wish to extract Lenny Image (Prefereably extract in your /pvfs-surveyor space) ";
+echo "Please enter the Path where you wish to extract Lenny Image (Prefereably extract in your /pvfs-surveyor/$USER space) .Please do not put a trailing slash in the end of the path";
 while read inputline
 do
 untarpath="$inputline"
