@@ -35,6 +35,10 @@ chmod 600 .scratch
 cp .scratch /var/www/html/vcl/.ht-inc/
 cd /var/www/html/vcl/.ht-inc/
 mv .scratch keyan
+chmod 600 keyan
+chown apache:apache keyan
+
+cd ~/
 
 echo "Please enter the password you configured for MySQL service on ANL Login Node"
 read pass
