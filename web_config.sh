@@ -62,3 +62,4 @@ sed -i 's/mysqlpass/'$pass'/g'/var/www/html/vcl/.ht-inc/template.sh
 sed -i 's/mysqlpass/'$pass'/g'/var/www/html/vcl/.ht-inc/hpc.sh
 
 echo "Script Complete and all the necessary updates are made. You may now save the image".
+echo "Please make the necessary edits in /var/www/html/vcl/.ht-inc/utils.php for daylight saving time problem"
