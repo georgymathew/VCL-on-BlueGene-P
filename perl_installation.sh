@@ -233,6 +233,13 @@ chmod +x trigger.sh
 sed "48 a\spawn ./khdev_template -n \$2 -K \"\$(cat ~/.ssh/id_rsa.pub)\" $newva.img" /pvfs-surveyor/georgy/api_scripts/provision.sh > provision.sh
 chmod +x provision.sh
 
+sed "58 a\spawn ./khdev_bulk -z \$requestednodes -K \"\$(cat ~/.ssh/id_rsa.pub)\" $newva.img" /pvfs-surveyor/georgy/api_scripts/provision2.sh > provision2.sh
+chmod +x provision2.sh
+
+cd ~/
+cp /pvfs-surveyor/georgy/api_scripts/delete.sh .
+cp /pvfs-surveyor/georgy/api_scripts/dreserv.sh .
+cp /pvfs-surveyor/georgy/api_scripts/post.sh .
 
 echo "A new copy of Lenny image will be extracted at the same location to load on other nodes in the cluster"
 cd ~/
