@@ -199,4 +199,6 @@ sed -i 's/selectedport/'$portno'/g' khdev.copy
 cp /pvfs-surveyor/georgy/api_scripts/khdev_template .
 sed -i 's/selectedport/'$portno'/g' khdev_template
 
+cp /pvfs-surveyor/georgy/api_scripts/khdev_bulk .
+
 echo "----- MySQL Database Installed Successfully -----";
