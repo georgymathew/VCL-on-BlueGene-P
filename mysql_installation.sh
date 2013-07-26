@@ -176,6 +176,7 @@ send "y\r"
 expect "pass"
 EOD
 
+#grating privileges to the user with the password !!!
 /home/$USER/MySQL/mysql/bin/mysql -u root -p$pass << EOF
 GRANT ALL PRIVILEGES ON *.* TO '$USER'@'localhost' WITH GRANT OPTION;
 EOF
