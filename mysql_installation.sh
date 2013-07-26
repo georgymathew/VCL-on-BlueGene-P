@@ -75,6 +75,8 @@ done
 
 echo "The Port Number you have selected is $portno";
 
+#Making the used_ports file write capable
+
 echo $portno-$USER >> /pvfs-surveyor/georgy/MYSQL/used_ports
 
 cd ~/MySQL/mysql
@@ -203,3 +205,8 @@ sed -i 's/selectedport/'$portno'/g' khdev_template
 cp /pvfs-surveyor/georgy/api_scripts/khdev_bulk .
 
 echo "----- MySQL Database Installed Successfully -----";
+
+echo "==== TEST COMMANDS after entering mysql database ==="
+
+echo "SELECT user, host, Grant_priv FROM mysql.user WHERE user = 'root';"
+echo "SELECT user, host, Grant_priv FROM mysql.user WHERE user = '$USER'";
