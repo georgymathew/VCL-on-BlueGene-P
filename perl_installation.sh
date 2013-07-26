@@ -54,7 +54,7 @@ cd ~/
 
 echo "Starting BlueGene Job to customize Perl Installation"
 
-# ---- KEY Generation ----
+# ---- KEY Generation ---- (make sure the .pub into the authorized_keys file)
 
 if [ -e .ssh/id_rsa -a -e .ssh/id_rsa.pub ]; then
  echo "SSH keys already exist and this will not be generated again"
