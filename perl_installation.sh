@@ -227,20 +227,46 @@ newvar=$untarpath$val$newname
 newva=$untarpath$val$img
 echo $newvar
 
-sed "124 a\spawn ./khdev.copy -p \$net -K \"\$(cat ~/.ssh/id_rsa.pub)\" $newvar.img" /pvfs-surveyor/georgy/api_scripts/trigger.sh > trigger.sh
+cd ~/
+echo "Please enter your account username";
+read usernam
+
+cp /pvfs-surveyor/georgy/api/trigger.sh .
+cp /pvfs-surveyor/georgy/api/provision.sh .
+cp /pvfs-surveyor/georgy/api/provision2.sh .
+cp /pvfs-surveyor/georgy/api/delete.sh .
+cp /pvfs-surveyor/georgy/api/dreserv.sh .
+cp /pvfs-surveyor/georgy/api/post.sh .
+
+mv trigger.sh trigger_temp
+mv provision.sh provision_temp
+mv provision2.sh provision2_temp
+
+sed -i 's/username/'$usernam'/g' trigger_temp
+sed -i 's/username/'$usernam'/g' provision_temp
+sed -i 's/username/'$usernam'/g' provision2_temp
+sed -i 's/username/'$usernam'/g' delete.sh
+sed -i 's/username/'$usernam'/g' dreserv.sh
+
+
+# the port number in the patch did not take into account the port number
+
+sed "150 a\spawn ./khdev.copy -p 1 -K \"\$(cat ~/.ssh/id_rsa.pub)\" $mgmt" trigger_temp > trigger_temp2
+sleep 5
+sed "163 a\spawn ./khdev.copy -p \$net -K \"\$(cat ~/.ssh/id_rsa.pub)\" $mgmt" trigger_temp2 > trigger.sh
 chmod +x trigger.sh
 
 
-sed "48 a\spawn ./khdev_template -n \$2 -K \"\$(cat ~/.ssh/id_rsa.pub)\" $newva.img" /pvfs-surveyor/georgy/api_scripts/provision.sh > provision.sh
+sed "48 a\spawn ./khdev_template -n \$2 -K \"\$(cat ~/.ssh/id_rsa.pub)\" $child" provision_temp > provision.sh
 chmod +x provision.sh
 
-sed "58 a\spawn ./khdev_bulk -z \$requestednodes -K \"\$(cat ~/.ssh/id_rsa.pub)\" $newva.img" /pvfs-surveyor/georgy/api_scripts/provision2.sh > provision2.sh
+sed "58 a\spawn ./khdev_bulk -z \$requestednodes -K \"\$(cat ~/.ssh/id_rsa.pub)\" $child" provision2_temp > provision2.sh
 chmod +x provision2.sh
 
-cd ~/
-cp /pvfs-surveyor/georgy/api_scripts/delete.sh .
-cp /pvfs-surveyor/georgy/api_scripts/dreserv.sh .
-cp /pvfs-surveyor/georgy/api_scripts/post.sh .
+rm trigger_temp
+rm trigger_temp2
+rm provision_temp
+rm provision2_temp
 
 echo "A new copy of Lenny image will be extracted at the same location to load on other nodes in the cluster"
 cd ~/
