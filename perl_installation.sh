@@ -163,6 +163,8 @@ sed -i 's/georgy/'$inputline'/g' /pvfs-surveyor/georgy/vcl/lib/VCL/Module/Provis
 cp -r /pvfs-surveyor/georgy/vcl_config /pvfs-surveyor/georgy/vcl_config_files
 echo "Please enter the root password set for the MySQL service"
 read mysqlpass
+
+#this file does not have write persmissions so didnt work .. vcld.conf didnt not have the password
 sed -i 's/wrtPass=/wrtPass='$mysqlpass'/g' /pvfs-surveyor/georgy/vcl_config_files/vcld.conf
 
 scp -r /pvfs-surveyor/georgy/perl root@$external:
