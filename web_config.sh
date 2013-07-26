@@ -43,7 +43,6 @@ cd ~/
 echo "Please enter the password you configured for MySQL service on ANL Login Node"
 read pass
 
-#there is a problem in this line in the Image (the pass is still there in secrets.php - georgy pass)
 sed -i 's/csc591team4mogambo571820/'$pass'/g' /var/www/html/vcl/.ht-inc/secrets.php
 
 #editing the username for the interaction scripts
