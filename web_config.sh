@@ -44,6 +44,10 @@ echo "Please enter the password you configured for MySQL service on ANL Login No
 read pass
 
 sed -i 's/csc591team4mogambo571820/'$pass'/g' /var/www/html/vcl/.ht-inc/secrets.php
+sed -i 's/mysqlpass/''/g' /var/www/html/vcl/jp.php
+sed -i 's/mysqlpass/''/g' /var/www/html/vcl/jb.php
+sed -i 's/mysqlpass/''/g' /var/www/html/vcl/.ht-inc/hpc.php
+sed -i 's/mysqlpass/''/g' /var/www/html/vcl/.ht-inc/template.php
 
 #editing the username for the interaction scripts
 
