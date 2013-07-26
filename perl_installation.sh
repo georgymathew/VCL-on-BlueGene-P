@@ -22,12 +22,12 @@ else
 fi
 done
 
-echo "Untarring Lenny Image to the Specified Location. This will take a few Minutes. Lenny Image Size = 10GB";
+echo "Untarring Lenny Image to the Specified Location. This will take about 10 Minutes. Lenny Image Size = 10GB";
 
 cd $untarpath
 pwd
 
-tar -zxvf /pvfs-surveyor/georgy/lenny/lenny.tar.gz
+tar -zxvf /pvfs-surveyor/georgy/lenny.tar.gz
 
 echo "Untarring Done"
 
@@ -54,8 +54,7 @@ cd ~/
 
 echo "Starting BlueGene Job to customize Perl Installation"
 
-# ---- KEY Generation ---- (make sure the .pub into the authorized_keys file)
-
+# ---- KEY Generation ---- 
 if [ -e .ssh/id_rsa -a -e .ssh/id_rsa.pub ]; then
  echo "SSH keys already exist and this will not be generated again"
 else
@@ -75,6 +74,7 @@ EOD
 
 fi
 
+#Loading the Kittyhawk environment Variables
 . kh.env
 
 PWD='kh'
@@ -152,32 +152,31 @@ echo "Internal IP Address of the Base Node: $internal"
 
 echo "Transfering perl modules and other VCL configuration files to the Base Node"
 
-cp -r /pvfs-surveyor/georgy/vcl_files /pvfs-surveyor/georgy/vcl
+cp -r /pvfs-surveyor/georgy/vcl_files /pvfs-surveyor/$USER/vcl
 
 
 echo "Please enter your username for the account"
 read inputline
-sed -i 's/georgy/'$inputline'/g' /pvfs-surveyor/georgy/vcl/lib/VCL/Module/Provisioning/bgp.pm
+sed -i 's/georgy/'$inputline'/g' /pvfs-surveyor/$USER/vcl/lib/VCL/Module/Provisioning/bgp.pm
 
 
-cp -r /pvfs-surveyor/georgy/vcl_config /pvfs-surveyor/georgy/vcl_config_files
+cp -r /pvfs-surveyor/georgy/vcl_config /pvfs-surveyor/$USER/vcl_config_files
 echo "Please enter the root password set for the MySQL service"
 read mysqlpass
 
 #this file does not have write persmissions so didnt work .. vcld.conf didnt not have the password
-sed -i 's/wrtPass=/wrtPass='$mysqlpass'/g' /pvfs-surveyor/georgy/vcl_config_files/vcld.conf
+sed -i 's/wrtPass=/wrtPass='$mysqlpass'/g' /pvfs-surveyor/$USER/vcl_config_files/vcld.conf
+cp /pvfs-surveyor/$USER/vcl_config_files/vcld.conf ~/vcld
 
 scp -r /pvfs-surveyor/georgy/perl root@$external:
-scp -r /pvfs-surveyor/georgy/vcl root@$external:
-scp -r /pvfs-surveyor/georgy/vcl_config_files root@$external:
+scp -r /pvfs-surveyor/$USER/vcl root@$external:
+scp -r /pvfs-surveyor/$USER/vcl_config_files root@$external:
 scp -r ~/.ssh/id_rsa root@$external:/root/.ssh/
 scp -r ~/.ssh/id_rsa.pub root@$external:/root/.ssh/
 
-#scp -r /pvfs-surveyor/georgy/sources.list root@$external:/etc/apt
 
-
-rm -rf /pvfs-surveyor/georgy/vcl
-rm -rf /pvfs-surveyor/georgy/vcl_config_files
+rm -rf /pvfs-surveyor/$USER/vcl
+rm -rf /pvfs-surveyor/$USER/vcl_config_files
 
 ssh -o StrictHostKeyChecking=no root@$external 'bash -s' <<EOF
 cd perl
@@ -214,7 +213,7 @@ echo "BlueGene Job has been successfully deleted"
 
 
 echo "The Lenny Image is now configured as the Management Node Image for VCL"
-echo "Please enter a name to be assigned for the same";
+echo "Please enter a name to be assigned for the same. Please DO NOT put and .img extension";
 read newname
 
 cd $untarpath
@@ -248,3 +247,17 @@ cd ~/
 cd $untarpath
 pwd
 tar -zxvf /pvfs-surveyor/georgy/lenny/lenny.tar.gz
+
+#Appending the public key to the authorized_keys file
+value=`cat ~/.ssh/id_rsa.pub`
+echo "Public Key"
+echo "$value"
+
+read -p "Do you want to append the id_rsa.pub into the authorized_keys file (if you dont have it already appended please append noe.) [yes/no]: " RESPONSE
+        if [ "$RESPONSE" = yes ] ; then
+             echo $value >> ~/.ssh/authorized_keys;
+        else
+           echo "Nothing done !"
+        fi
+        
+echo "Perl Installtion script complete"
