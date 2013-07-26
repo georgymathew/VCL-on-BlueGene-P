@@ -251,16 +251,16 @@ sed -i 's/username/'$usernam'/g' dreserv.sh
 
 # the port number in the patch did not take into account the port number
 
-sed "150 a\spawn ./khdev.copy -p 1 -K \"\$(cat ~/.ssh/id_rsa.pub)\" $mgmt" trigger_temp > trigger_temp2
+sed "150 a\spawn ./khdev.copy -p 1 -K \"\$(cat ~/.ssh/id_rsa.pub)\" $newvar.img" trigger_temp > trigger_temp2
 sleep 5
-sed "163 a\spawn ./khdev.copy -p \$net -K \"\$(cat ~/.ssh/id_rsa.pub)\" $mgmt" trigger_temp2 > trigger.sh
+sed "163 a\spawn ./khdev.copy -p \$net -K \"\$(cat ~/.ssh/id_rsa.pub)\" $newvar.img" trigger_temp2 > trigger.sh
 chmod +x trigger.sh
 
 
-sed "48 a\spawn ./khdev_template -n \$2 -K \"\$(cat ~/.ssh/id_rsa.pub)\" $child" provision_temp > provision.sh
+sed "48 a\spawn ./khdev_template -n \$2 -K \"\$(cat ~/.ssh/id_rsa.pub)\" $newva.img" provision_temp > provision.sh
 chmod +x provision.sh
 
-sed "58 a\spawn ./khdev_bulk -z \$requestednodes -K \"\$(cat ~/.ssh/id_rsa.pub)\" $child" provision2_temp > provision2.sh
+sed "58 a\spawn ./khdev_bulk -z \$requestednodes -K \"\$(cat ~/.ssh/id_rsa.pub)\" $newva.img" provision2_temp > provision2.sh
 chmod +x provision2.sh
 
 rm trigger_temp
