@@ -44,23 +44,20 @@ echo "Please enter the password you configured for MySQL service on ANL Login No
 read pass
 
 #there is a problem in this line in the Image (the pass is still there in secrets.php - georgy pass)
-sed -i 's/mysqlpass/'$pass'/g' /var/www/html/vcl/.ht-inc/secrets.php
+sed -i 's/csc591team4mogambo571820/'$pass'/g' /var/www/html/vcl/.ht-inc/secrets.php
 
 #editing the username for the interaction scripts
 
-sed -i 's/username/'$username'/g'/var/www/html/vcl/jb.php
-sed -i 's/username/'$username'/g'/var/www/html/vcl/jp.php
-sed -i 's/username/'$username'/g'/var/www/html/vcl/.ht-inc/t.sh
-sed -i 's/username/'$username'/g'/var/www/html/vcl/.ht-inc/t1.sh
-sed -i 's/username/'$username'/g'/var/www/html/vcl/.ht-inc/t2.sh
-sed -i 's/username/'$username'/g'/var/www/html/vcl/.ht-inc/template.sh
-sed -i 's/username/'$username'/g'/var/www/html/vcl/.ht-inc/hpc.sh
-
-#editing the password for the interaction scripts
-sed -i 's/mysqlpass/'$pass'/g'/var/www/html/vcl/jb.php
-sed -i 's/mysqlpass/'$pass'/g'/var/www/html/vcl/jp.php
-sed -i 's/mysqlpass/'$pass'/g'/var/www/html/vcl/.ht-inc/template.sh
-sed -i 's/mysqlpass/'$pass'/g'/var/www/html/vcl/.ht-inc/hpc.sh
+sed -i 's/username/'$username'/g' /var/www/html/vcl/jb.php
+sed -i 's/username/'$username'/g' /var/www/html/vcl/jp.php
+sed -i 's/username/'$username'/g' /var/www/html/vcl/.ht-inc/t.sh
+sed -i 's/username/'$username'/g' /var/www/html/vcl/.ht-inc/t1.sh
+sed -i 's/username/'$username'/g' /var/www/html/vcl/.ht-inc/t2.sh
+sed -i 's/username/'$username'/g' /var/www/html/vcl/.ht-inc/template.php
+sed -i 's/username/'$username'/g' /var/www/html/vcl/.ht-inc/hpc.php
 
 echo "Script Complete and all the necessary updates are made. You may now save the image".
 echo "Please make the necessary edits in /var/www/html/vcl/.ht-inc/utils.php for daylight saving time problem"
+
+echo "**************************"
+echo "Run the tun file in your home directory. An the Database on the ANL Login Node should be UP and running"
